@@ -30,6 +30,7 @@ from lighteval.models.endpoints.endpoint_model import (
     ServerlessEndpointModelConfig,
 )
 from lighteval.models.endpoints.openai_model import OpenAIClient, OpenAIModelConfig
+from lighteval.models.endpoints.azure_openai_model import AzureOpenAIClient, AzureOpenAIModelConfig
 from lighteval.models.endpoints.tgi_model import ModelClient, TGIModelConfig
 from lighteval.models.litellm_model import LiteLLMClient, LiteLLMModelConfig
 from lighteval.models.sglang.sglang_model import SGLangModel, SGLangModelConfig
@@ -66,6 +67,7 @@ def load_model(  # noqa: C901
         OpenAIModelConfig,
         LiteLLMModelConfig,
         SGLangModelConfig,
+        AzureOpenAIModelConfig,
     ],
     env_config: EnvConfig,
 ) -> Union[TransformersModel, AdapterModel, DeltaModel, ModelClient, DummyModel]:
@@ -106,6 +108,9 @@ def load_model(  # noqa: C901
     if isinstance(config, OpenAIModelConfig):
         return load_openai_model(config=config, env_config=env_config)
 
+    if isinstance(config, AzureOpenAIModelConfig):
+        return load_azure_openai_model(config=config, env_config=env_config)
+
     if isinstance(config, LiteLLMModelConfig):
         return load_litellm_model(config=config, env_config=env_config)
 
@@ -137,6 +142,13 @@ def load_openai_model(config: OpenAIModelConfig, env_config: EnvConfig):
 
     return model
 
+def load_azure_openai_model(config: AzureOpenAIModelConfig, env_config: EnvConfig):
+    if not is_openai_available():
+        raise ImportError()
+
+    model = AzureOpenAIClient(config, env_config)
+
+    return model
 
 def load_model_with_inference_endpoints(
     config: Union[InferenceEndpointModelConfig, ServerlessEndpointModelConfig], env_config: EnvConfig

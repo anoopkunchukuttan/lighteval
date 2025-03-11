@@ -89,7 +89,7 @@ class ParallelismManager(Enum):
     VLLM = auto()
     NONE = auto()
     SGLANG = auto()
-
+    AZURE_OPENAI = auto()
 
 @dataclass
 class PipelineParameters:
@@ -128,6 +128,9 @@ class PipelineParameters:
         elif self.launcher_type == ParallelismManager.OPENAI:
             if not is_openai_available():
                 raise ImportError(NO_OPENAI_ERROR_MSG)
+        elif self.launcher_type == ParallelismManager.AZURE_OPENAI:
+            if not is_openai_available():
+                raise ImportError(NO_OPENAI_ERROR_MSG)            
 
 
 class Pipeline:
