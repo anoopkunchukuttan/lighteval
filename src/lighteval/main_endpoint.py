@@ -202,7 +202,7 @@ def azure_openai(
     Evaluate AZURE_OPENAI models.
     """
     from lighteval.logging.evaluation_tracker import EvaluationTracker
-    from lighteval.models.endpoints.openai_model import AzureOpenAIModelConfig
+    from lighteval.models.endpoints.azure_openai_model import AzureOpenAIModelConfig
     from lighteval.pipeline import EnvConfig, ParallelismManager, Pipeline, PipelineParameters
 
     if model_args.endswith(".yaml"):
