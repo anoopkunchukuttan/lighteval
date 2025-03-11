@@ -116,7 +116,7 @@ class AzureOpenAIClient(LightevalModel):
     def __call_api(self, prompt, return_logits, max_new_tokens, num_samples, logit_bias):
         for _ in range(self.API_MAX_RETRY):
             try:
-                response_format = {"response_format": {"type": "text"}} if "openai" in self.config.base_url else {}
+                response_format = {"response_format": {"type": "text"}} if "openai" in self.config.azure_endpoint else {}
                 response = self.client.chat.completions.create(
                     model=self.model,
                     messages=[{"role": "user", "content": prompt}],
