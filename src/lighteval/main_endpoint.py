@@ -199,7 +199,7 @@ def azure_openai(
     ] = 0,
 ):
     """
-    Evaluate OPENAI models.
+    Evaluate AZURE_OPENAI models.
     """
     from lighteval.logging.evaluation_tracker import EvaluationTracker
     from lighteval.models.endpoints.openai_model import AzureOpenAIModelConfig
@@ -220,7 +220,7 @@ def azure_openai(
         hub_results_org=results_org,
     )
 
-    parallelism_manager = ParallelismManager.OPENAI
+    parallelism_manager = ParallelismManager.AZURE_OPENAI
 
     pipeline_params = PipelineParameters(
         launcher_type=parallelism_manager,
